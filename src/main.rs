@@ -1,10 +1,19 @@
-use std::io;
+use std::process::Command;
 
 fn main()
 {
-    let mut ug = String::new();
+    let out = Command::new("playerctl")
+        .arg("metadata")
+        .arg("--format")
+        .arg("{{artist}}\n{{album}}\n{{title}}")
+        .output()
+        .expect("Fuck you");
+    let data = String::from_utf8_lossy(&out.stdout);
+    let mut lines = data.lines();
 
-    println!("Fuck ya bich, enter da number!\n");
+    let artist = lines.next().unwrap_or("").to_string();
+    let album = lines.next().unwrap_or("").to_string();
+    let title = lines.next().unwrap_or("").to_string();
 
-    io::stdin().read_line(&mut ug).expect("Heya bichh, no line here");
+    println!("{}\n{}\n{}", artist, album, title);
 }
