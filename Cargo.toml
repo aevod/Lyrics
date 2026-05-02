@@ -12,3 +12,5 @@ reqwest = {
 serde_json = {
 	version = "1.0.1",
 }
+
+urlencoding = "2.1.3"
